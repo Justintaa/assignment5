@@ -2,24 +2,22 @@ package org.example.Assignment;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class FilterInvoiceTest {
 
-    // Integration Test (no mocks, using real database interaction)
     @Test
-    void filterInvoiceTest() {
-        // Create a real FilterInvoice instance
-        FilterInvoice filterInvoice = new FilterInvoice(); // This will create a real QueryInvoicesDAO, which connects to the real database
+    public void filterInvoiceTest() {
+        // Create a real DAO and pass it to the FilterInvoice class
+        QueryInvoicesDAO realDao = new QueryInvoicesDAO(new Database());  // Assuming real DAO will access the actual database
+        FilterInvoice filterInvoice = new FilterInvoice(realDao);
 
-        // Call the method under test
-        List<Invoice> invoices = filterInvoice.lowValueInvoices();
+        // Run the test to fetch low-value invoices
+        List<Invoice> lowValueInvoices = filterInvoice.lowValueInvoices();
 
-        // Example assertions
-        assertNotNull(invoices); // Ensure the result is not null
-        assertTrue(invoices.size() > 0); // Assuming that there are low-value invoices in the database
+        // Check that the result is correct, you can adjust this based on your actual data in the database
+        assertTrue(lowValueInvoices.size() > 0);
     }
 }
